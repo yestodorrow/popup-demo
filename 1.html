@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>trialgame</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0
+        }
+
+        canvas {
+            margin: 0;
+            padding: 0;
+            background: #ddd;
+        }
+    </style>
+</head>
+<body>
+<canvas id="cloth" width="500" height="500"></canvas>
+<button id="btn">获取数据</button>
+<script>
+    //    防止狂点的节流函数，会将事件给btn
+    //    var throttle = function (fn, delay) {
+    //        var timer = null;
+    //        return function () {
+    //            clearTimeout(timer);
+    //            timer = setTimeout(function () {
+    //                fn();
+    //            }, delay);
+    //        }
+    //    };
+    var rec = function (x, y, w, h) {
+        this.x = x;
+        this.y = y;
+        this.w = w;
+        this.h = h;
+        this.color=this.h > 300 ? "red" : this.h > 200 ? "yellow" : "green";
+    }
+    rec.prototype.draw = function () {
+        var ctx = document.getElementById("cloth").getContext("2d");
+        ctx.fillStyle = this.color;
+        ctx.fillRect(this.x, this.y, this.w, this.h);
+    }
+    var timer = null;
+    var js = [
+        {distance: 20},
+        {distance: 120},
+        {distance: 220},
+        {distance: 190},
+        {distance: 320},
+        {distance: 400},
+    ];
+    btn.onclick = function () {
+        clearInterval(timer);
+        var i = 0;
+        timer = setInterval(function () {
+            if(i==js.length){
+                return false
+            }else{
+                var y = js[i++]["distance"];
+                new rec(i*50, 500 - y, 30, y).draw();
+            }
+        }, 1000)
+    }
+</script>
+</body>
+</html>
